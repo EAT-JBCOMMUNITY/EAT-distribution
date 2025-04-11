@@ -90,9 +90,9 @@ public class ProcessSources {
                             int v13=0;
                             if (verPart.length > 2) {
                                 verRelease1 = Integer.parseInt(verPart[0] + verPart[1] + verPart[2]);
-                                int v11 = Integer.parseInt(verPart[0]);
-                                int v12 = Integer.parseInt(verPart[1]);
-                                int v13 = Integer.parseInt(verPart[2]);
+                                v11 = Integer.parseInt(verPart[0]);
+                                v12 = Integer.parseInt(verPart[1]);
+                                v13 = Integer.parseInt(verPart[2]);
                             }
                             String[] subVersions = dest.minVersion.split("-");
                             verPart = subVersions[0].split("\\.");
@@ -102,9 +102,9 @@ public class ProcessSources {
                             int v23=0;
                             if (verPart.length > 2) {
                                 verRelease2 = Integer.parseInt(verPart[0] + verPart[1] + verPart[2]);
-                                int v21 = Integer.parseInt(verPart[0]);
-                                int v22 = Integer.parseInt(verPart[1]);
-                                int v23 = Integer.parseInt(verPart[2]);
+                                v21 = Integer.parseInt(verPart[0]);
+                                v22 = Integer.parseInt(verPart[1]);
+                                v23 = Integer.parseInt(verPart[2]);
                             }
 
                             int verRelease3 = 0;
@@ -119,9 +119,9 @@ public class ProcessSources {
 
                                 if (verPart.length > 2) {
                                     verRelease3 = Integer.parseInt(verPart[0] + verPart[1] + verPart[2]);
-                                    int v31 = Integer.parseInt(verPart[0]);
-                                    int v32 = Integer.parseInt(verPart[1]);
-                                    int v33 = Integer.parseInt(verPart[2]);
+                                    v31 = Integer.parseInt(verPart[0]);
+                                    v32 = Integer.parseInt(verPart[1]);
+                                    v33 = Integer.parseInt(verPart[2]);
                                 }
                             }
 
@@ -188,7 +188,7 @@ public class ProcessSources {
                                         }
                                     }
                                 }
-                            } else if (verRelease1 >= verRelease2 && v11>=v21 && v12>=v22) {
+                            } else if (verRelease2==0 || (verRelease1 >= verRelease2 && v11>=v21 && v12>=v22 && v13>=v23)) {
                                 if (!(verRelease1 == verRelease2 && isSnapshot)) {
                                     if (verRelease3 == 0 || verRelease1 < verRelease3) {
                                         if (verRelease1 != verRelease2 || !isSnapshot) {
@@ -714,27 +714,46 @@ public class ProcessSources {
                 String[] versionRelease = version.split("-");
                 int verRelease1 = 0;
                 String[] verPart = versionRelease[0].split("\\.");
-                if (verPart.length > 2) {
-                    verRelease1 = Integer.parseInt(verPart[0] + verPart[1] + verPart[2]);
-                }
-                String[] subVersions = dest.minVersion.split("-");
-                verPart = subVersions[0].split("\\.");
-                int verRelease2 = 0;
-                if (verPart.length > 2) {
-                    verRelease2 = Integer.parseInt(verPart[0] + verPart[1] + verPart[2]);
-                }
+                int v11=0;
+                            int v12=0;
+                            int v13=0;
+                            if (verPart.length > 2) {
+                                verRelease1 = Integer.parseInt(verPart[0] + verPart[1] + verPart[2]);
+                                v11 = Integer.parseInt(verPart[0]);
+                                v12 = Integer.parseInt(verPart[1]);
+                                v13 = Integer.parseInt(verPart[2]);
+                            }
+                            String[] subVersions = dest.minVersion.split("-");
+                            verPart = subVersions[0].split("\\.");
+                            int verRelease2 = 0;
+                            int v21=0;
+                            int v22=0;
+                            int v23=0;
+                            if (verPart.length > 2) {
+                                verRelease2 = Integer.parseInt(verPart[0] + verPart[1] + verPart[2]);
+                                v21 = Integer.parseInt(verPart[0]);
+                                v22 = Integer.parseInt(verPart[1]);
+                                v23 = Integer.parseInt(verPart[2]);
+                            }
 
-                int verRelease3 = 0;
-                String[] subVersionsMax = null;
+                            int verRelease3 = 0;
+                            int v31=0;
+                            int v32=0;
+                            int v33=0;
+                            String[] subVersionsMax = null;
 
-                if (dest.maxVersion != null) {
-                    subVersionsMax = dest.maxVersion.split("-");
-                    verPart = subVersionsMax[0].split("\\.");
+                            if (dest.maxVersion != null) {
+                                subVersionsMax = dest.maxVersion.split("-");
+                                verPart = subVersionsMax[0].split("\\.");
 
-                    if (verPart.length > 2) {
-                        verRelease3 = Integer.parseInt(verPart[0] + verPart[1] + verPart[2]);
-                    }
-                }
+                                if (verPart.length > 2) {
+                                    verRelease3 = Integer.parseInt(verPart[0] + verPart[1] + verPart[2]);
+                                    v31 = Integer.parseInt(verPart[0]);
+                                    v32 = Integer.parseInt(verPart[1]);
+                                    v33 = Integer.parseInt(verPart[2]);
+                                }
+                            }
+
 
                 if ((subVersions.length >= 1 && verRelease1 == verRelease2)) {
 
@@ -790,7 +809,7 @@ public class ProcessSources {
                             }
                         }
                     }
-                } else if (verRelease1 >= verRelease2) {
+                } else if (verRelease2==0 || (verRelease1 >= verRelease2 && v11>=v21 && v12>=v22 && v13>=v23)) {
                     if (!(verRelease1 == verRelease2 && isSnapshot)) {
                         if (verRelease3 == 0 || verRelease1 < verRelease3) {
                             System.out.println(basedir + "/" + dest.fileBaseDir + "/" + dest.packageName + "/" + dest.fileName);
